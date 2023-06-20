@@ -35,6 +35,9 @@ rustflags = ["-C", "link-arg=-fuse-ld=/usr/local/bin/zld"]
 [lib]
 path = "src/lib.rs"
 
+[[bin]]
+path = "src/main.rs"
+name = "zero2prod"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
