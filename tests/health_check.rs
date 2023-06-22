@@ -1,5 +1,3 @@
-
-
 // `tokio::test` is the testing equivalant of `tokio::main`.
 // It also spares you from having to sprcify the `#[test]` attribute.
 // Run `cargo expand --test health_check` to inspect what code is generated
@@ -15,10 +13,10 @@ async fn health_check_works() {
 
     // Act
     let response = client
-    .get("http://127.0.0.1:8000/health_check")
-    .send()
-    .await
-    .expect("Failed to execute request");
+        .get("http://127.0.0.1:8000/health_check")
+        .send()
+        .await
+        .expect("Failed to execute request");
 
     // Assert
     assert!(response.status().is_success());
