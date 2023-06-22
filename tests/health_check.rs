@@ -25,5 +25,5 @@ async fn health_check_works() {
 }
 
 async fn spawn_app() -> Result<(), std::io::Error> {
-    todo!()
+    zero2prod::run().await
 }
