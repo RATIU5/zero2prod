@@ -7,7 +7,8 @@
 #[tokio::test]
 async fn health_check_works() {
     // Arrange
-    spawn_app().await.expect("Failed to spawn app");
+    // No .await, no .expect
+    spawn_app();
 
     // We need reqwest
     let client = reqwest::Client::new();
@@ -24,6 +25,10 @@ async fn health_check_works() {
     assert_eq!(Some(0), response.content_length());
 }
 
-async fn spawn_app() -> Result<(), std::io::Error> {
-    zero2prod::run().await
+fn spawn_app() {
+    let server = zero2prod::run().expect("Failed to bind address");
+    // Launch the server as a background task
+    // tokio::spawn returns a handle to the spawned future,
+    // but we have no use for it here, hence the non-binding let
+    let _ = tokio::spawn(server);
 }
