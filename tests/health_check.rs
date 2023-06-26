@@ -1,3 +1,11 @@
+fn spawn_app() -> String {
+    let listener = std::net::TcpListener::bind("127.0.0.1:0").expect("Failed to bind random port");
+    let port = listener.local_addr().unwrap().port();
+    let server = zero2prod::run(listener).expect("Failed to bind address");
+    let _ = tokio::spawn(server);
+    format!("http://127.0.0.1:{}", port)
+}
+
 // `tokio::test` is the testing equivalant of `tokio::main`.
 // It also spares you from having to sprcify the `#[test]` attribute.
 // Run `cargo expand --test health_check` to inspect what code is generated
@@ -18,14 +26,6 @@ async fn health_check_works() {
     // Assert
     assert!(response.status().is_success());
     assert_eq!(Some(0), response.content_length());
-}
-
-fn spawn_app() -> String {
-    let listener = std::net::TcpListener::bind("127.0.0.1:0").expect("Failed to bind random port");
-    let port = listener.local_addr().unwrap().port();
-    let server = zero2prod::run(listener).expect("Failed to bind address");
-    let _ = tokio::spawn(server);
-    format!("http://127.0.0.1:{}", port)
 }
 
 #[tokio::test]
